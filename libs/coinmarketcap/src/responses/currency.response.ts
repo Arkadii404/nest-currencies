@@ -1,4 +1,6 @@
-export class Currensy {
+import { CoinmarketcapModule } from '../coinmarketcap.module';
+
+export interface CoinmarketcapCurrencyResponse {
   id: number;
   name: string;
   symbol: string;

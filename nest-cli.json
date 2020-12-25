@@ -1,4 +1,58 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src"
+  "sourceRoot": "apps/currencies/src",
+  "monorepo": true,
+  "root": "apps/currencies",
+  "compilerOptions": {
+    "webpack": true,
+    "tsConfigPath": "apps/currencies/tsconfig.app.json"
+  },
+  "projects": {
+    "currencies": {
+      "type": "application",
+      "root": "apps/currencies",
+      "entryFile": "main",
+      "sourceRoot": "apps/currencies/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/currencies/tsconfig.app.json"
+      }
+    },
+    "jobs": {
+      "type": "application",
+      "root": "apps/jobs",
+      "entryFile": "main",
+      "sourceRoot": "apps/jobs/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/jobs/tsconfig.app.json"
+      }
+    },
+    "coinmarketcap": {
+      "type": "library",
+      "root": "libs/coinmarketcap",
+      "entryFile": "index",
+      "sourceRoot": "libs/coinmarketcap/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/coinmarketcap/tsconfig.lib.json"
+      }
+    },
+    "pdf-renderer": {
+      "type": "library",
+      "root": "libs/pdf-renderer",
+      "entryFile": "index",
+      "sourceRoot": "libs/pdf-renderer/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/pdf-renderer/tsconfig.lib.json",
+        "assets": ["/assets/"]
+      }
+    },
+    "domain": {
+      "type": "library",
+      "root": "libs/domain",
+      "entryFile": "index",
+      "sourceRoot": "libs/domain/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/domain/tsconfig.lib.json"
+      }
+    }
+  }
 }

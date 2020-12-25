@@ -10,6 +10,26 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "incremental": true
+    "incremental": true,
+    "paths": {
+      "@app/coinmarketcap": [
+        "libs/coinmarketcap/src"
+      ],
+      "@app/coinmarketcap/*": [
+        "libs/coinmarketcap/src/*"
+      ],
+      "@app/pdf-renderer": [
+        "libs/pdf-renderer/src"
+      ],
+      "@app/pdf-renderer/*": [
+        "libs/pdf-renderer/src/*"
+      ],
+      "@app/domain": [
+        "libs/domain/src"
+      ],
+      "@app/domain/*": [
+        "libs/domain/src/*"
+      ]
+    }
   }
 }
