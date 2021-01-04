@@ -1,9 +1,10 @@
 import { HttpModule, Module } from '@nestjs/common';
-
+import { ConfigModule } from '@nestjs/config';
 import { CoinmarketcapService } from './coinmarketcap.service';
+import { coinmarketcapConfig } from './config';
 
 @Module({
-  imports: [HttpModule],
+  imports: [HttpModule, ConfigModule.forFeature(coinmarketcapConfig)],
   providers: [CoinmarketcapService],
   exports: [CoinmarketcapService],
 })

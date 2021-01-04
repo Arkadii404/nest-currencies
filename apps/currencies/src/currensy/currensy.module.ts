@@ -1,5 +1,5 @@
 import { CoinmarketcapModule } from '@app/coinmarketcap';
-import { HttpModule, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 
 import { PdfRendererModule } from '@app/pdf-renderer';
 

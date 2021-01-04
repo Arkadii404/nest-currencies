@@ -1,5 +1,3 @@
-import { CoinmarketcapModule } from '../coinmarketcap.module';
-
 export interface CoinmarketcapCurrencyResponse {
   id: number;
   name: string;
