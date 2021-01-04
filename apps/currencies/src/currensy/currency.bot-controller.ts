@@ -7,7 +7,7 @@ import { Context, Hears, Start, Help } from 'nestjs-telegraf';
 export class CurrencyBotController {
   constructor(
     private readonly coinmarketcapService: CoinmarketcapService,
-    private readonly pdfRenderer: PdfRendererService,
+    private readonly pdfRendererService: PdfRendererService,
   ) {}
 
   @Start()
@@ -27,8 +27,11 @@ export class CurrencyBotController {
   }
 
   @Hears('/get')
-  hears(ctx: Context): void {
-    ctx.reply('Hey there');
+  async hears(ctx: Context): Promise<void> {
+    const images = this.pdfRendererService.renderAll(
+      await this.coinmarketcapService.getCurrencies(),
+    );
+    images.forEach(img => ctx.replyWithPhoto({ source: img }));
   }
 
   // @Hears('statistics')

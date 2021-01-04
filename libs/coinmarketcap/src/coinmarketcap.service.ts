@@ -1,3 +1,4 @@
+import { Currency } from '@app/domain/models/currency.model';
 import { HttpService, Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { map } from 'rxjs/operators';
@@ -23,9 +24,9 @@ export class CoinmarketcapService {
     private readonly config: ConfigType<typeof coinmarketcapConfig>,
   ) {}
 
-  public getCurrencies() {
+  public getCurrencies(): Promise<Currency[]> {
     return this.httpService
-      .get<CoinmarketcapCurrencyResponse[]>(`${this.endpoint}`, {
+      .get<CoinmarketcapCurrencyResponse>(`${this.endpoint}`, {
         params: this.reqOptions,
         headers: {
           'X-CMC_PRO_API_KEY': this.config.key,
@@ -33,10 +34,11 @@ export class CoinmarketcapService {
       })
       .pipe(
         map(res =>
-          res.data.map(c => ({
+          res.data.data.map(c => ({
             name: c.name,
             symbol: c.symbol,
             change: c.quote.USD.percent_change_24h,
+            price: c.quote.USD.price,
           })),
         ),
       )

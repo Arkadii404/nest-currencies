@@ -42,7 +42,7 @@
       "sourceRoot": "libs/pdf-renderer/src",
       "compilerOptions": {
         "tsConfigPath": "libs/pdf-renderer/tsconfig.lib.json",
-        "assets": ["/assets/"]
+        "assets": ["assets/fonts/*.otf", "assets/templates/*.pdf"]
       }
     },
     "domain": {

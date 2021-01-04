@@ -2,9 +2,9 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { PDFDocument } from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
-import fs from 'fs';
+import { readFileSync } from 'fs';
 import { pdfRendererConfig } from './config';
-import { Currency } from './models/currency.model';
+import { Currency } from '../../domain/src/models/currency.model';
 
 @Injectable()
 export class PdfRendererService {
@@ -16,9 +16,9 @@ export class PdfRendererService {
   private async render(
     currencies: Currency[],
     template: { name: string },
-  ): Promise<Uint8Array> {
+  ): Promise<Buffer> {
     const pdfDoc = await PDFDocument.load(
-      fs.readFileSync(`pdf-renderer/assets/templates/${template.name}.pdf`),
+      readFileSync(`pdf-renderer/assets/templates/${template.name}.pdf`),
     );
 
     const pages = pdfDoc.getPages();
@@ -28,13 +28,13 @@ export class PdfRendererService {
 
     const fonts = {
       light: await pdfDoc.embedFont(
-        fs.readFileSync('pdf-renderer/assets/fonts/Light.otf'),
+        readFileSync('pdf-renderer/assets/fonts/Light.otf'),
       ),
       semibold: await pdfDoc.embedFont(
-        fs.readFileSync('pdf-renderer/assets/fonts/Semibold.otf'),
+        readFileSync('pdf-renderer/assets/fonts/Semibold.otf'),
       ),
       bold: await pdfDoc.embedFont(
-        fs.readFileSync('pdf-renderer/assets/fonts/Bold.otf'),
+        readFileSync('pdf-renderer/assets/fonts/Bold.otf'),
       ),
     };
 
@@ -54,13 +54,13 @@ export class PdfRendererService {
       y: 1400,
     });
 
-    const pdfBytes = await pdfDoc.save();
+    const pdfBytes = new Buffer(await pdfDoc.save());
 
     return pdfBytes;
   }
 
-  public renderAll(currencies: Currency[]): Uint8Array[] {
-    const files: Uint8Array[] = [];
+  public renderAll(currencies: Currency[]): Buffer[] {
+    const files: Buffer[] = [];
 
     this.config.templates.forEach(async template =>
       files.push(await this.render(currencies, template)),
