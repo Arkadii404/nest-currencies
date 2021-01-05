@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { PDFDocument } from 'pdf-lib';
-import fontkit from '@pdf-lib/fontkit';
-import { readFileSync } from 'fs';
+import * as fontkit from '@pdf-lib/fontkit';
+import { promises as fs } from 'fs';
 import { pdfRendererConfig } from './config';
 import { Currency } from '../../domain/src/models/currency.model';
 
@@ -18,7 +18,7 @@ export class PdfRendererService {
     template: { name: string },
   ): Promise<Buffer> {
     const pdfDoc = await PDFDocument.load(
-      readFileSync(`pdf-renderer/assets/templates/${template.name}.pdf`),
+      await fs.readFile(`./assets/templates/${template.name}.pdf`),
     );
 
     const pages = pdfDoc.getPages();
@@ -28,13 +28,13 @@ export class PdfRendererService {
 
     const fonts = {
       light: await pdfDoc.embedFont(
-        readFileSync('pdf-renderer/assets/fonts/Light.otf'),
+        await fs.readFile('./assets/fonts/Light.otf'),
       ),
       semibold: await pdfDoc.embedFont(
-        readFileSync('pdf-renderer/assets/fonts/Semibold.otf'),
+        await fs.readFile('./assets/fonts/Semibold.otf'),
       ),
       bold: await pdfDoc.embedFont(
-        readFileSync('pdf-renderer/assets/fonts/Bold.otf'),
+        await fs.readFile('./assets/fonts/Bold.otf'),
       ),
     };
 
@@ -54,16 +54,18 @@ export class PdfRendererService {
       y: 1400,
     });
 
-    const pdfBytes = new Buffer(await pdfDoc.save());
+    const pdfBytes = Buffer.from(await pdfDoc.save());
 
     return pdfBytes;
   }
 
-  public renderAll(currencies: Currency[]): Buffer[] {
+  public async renderAll(currencies: Currency[]): Promise<Buffer[]> {
     const files: Buffer[] = [];
 
-    this.config.templates.forEach(async template =>
-      files.push(await this.render(currencies, template)),
+    await Promise.all(
+      this.config.templates.map(async template =>
+        files.push(await this.render(currencies, template)),
+      ),
     );
 
     return files;

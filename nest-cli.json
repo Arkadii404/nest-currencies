@@ -5,7 +5,11 @@
   "root": "apps/currencies",
   "compilerOptions": {
     "webpack": true,
-    "tsConfigPath": "apps/currencies/tsconfig.app.json"
+    "tsConfigPath": "apps/currencies/tsconfig.app.json",
+    "assets": [
+      "../../../libs/pdf-renderer/src/assets/fonts/*.otf",
+      "../../../libs/pdf-renderer/src/assets/templates/*.pdf"
+    ]
   },
   "projects": {
     "currencies": {

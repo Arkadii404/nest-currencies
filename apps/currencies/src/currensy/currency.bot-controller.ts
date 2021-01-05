@@ -28,7 +28,7 @@ export class CurrencyBotController {
 
   @Hears('/get')
   async hears(ctx: Context): Promise<void> {
-    const images = this.pdfRendererService.renderAll(
+    const images = await this.pdfRendererService.renderAll(
       await this.coinmarketcapService.getCurrencies(),
     );
     images.forEach(img => ctx.replyWithPhoto({ source: img }));
