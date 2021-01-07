@@ -19,8 +19,6 @@ export class PdfRendererService {
     currencies: Currency[],
     template: { name: string; fixes: any },
   ): Promise<Buffer> {
-    console.log(currencies);
-
     const pdfDoc = await PDFDocument.load(
       await fs.readFile(`./assets/templates/${template.name}.pdf`),
     );
@@ -70,7 +68,7 @@ export class PdfRendererService {
     });
 
     await Promise.all(
-      currencies.reverse().map(async (c, i) => {
+      currencies.map(async (c, i) => {
         const icon = await pdfDoc.embedPng(
           await fs.readFile(`./assets/icons/${c.symbol}.png`),
         );

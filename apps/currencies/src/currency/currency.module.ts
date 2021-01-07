@@ -9,4 +9,4 @@ import { CurrencyBotController } from './currency.bot-controller';
   imports: [CoinmarketcapModule, PdfRendererModule],
   providers: [CurrencyBotController],
 })
-export class CurrensyModule {}
+export class CurrencyModule {}
