@@ -5,11 +5,7 @@
   "root": "apps/currencies",
   "compilerOptions": {
     "webpack": true,
-    "tsConfigPath": "apps/currencies/tsconfig.app.json",
-    "assets": [
-      "../../../libs/pdf-renderer/src/assets/fonts/*.otf",
-      "../../../libs/pdf-renderer/src/assets/templates/*.pdf"
-    ]
+    "tsConfigPath": "apps/currencies/tsconfig.app.json"
   },
   "projects": {
     "currencies": {
@@ -45,8 +41,7 @@
       "entryFile": "index",
       "sourceRoot": "libs/pdf-renderer/src",
       "compilerOptions": {
-        "tsConfigPath": "libs/pdf-renderer/tsconfig.lib.json",
-        "assets": ["assets/fonts/*.otf", "assets/templates/*.pdf"]
+        "tsConfigPath": "libs/pdf-renderer/tsconfig.lib.json"
       }
     },
     "domain": {

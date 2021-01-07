@@ -34,12 +34,14 @@ export class CoinmarketcapService {
       })
       .pipe(
         map(res =>
-          res.data.data.map(c => ({
-            name: c.name,
-            symbol: c.symbol,
-            change: c.quote.USD.percent_change_24h,
-            price: c.quote.USD.price,
-          })),
+          res.data.data
+            .map(c => ({
+              name: c.name,
+              symbol: c.symbol,
+              change: c.quote.USD.percent_change_24h,
+              price: c.quote.USD.price,
+            }))
+            .reverse(),
         ),
       )
       .toPromise();

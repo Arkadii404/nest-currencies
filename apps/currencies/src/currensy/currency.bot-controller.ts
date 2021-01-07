@@ -33,13 +33,4 @@ export class CurrencyBotController {
     );
     images.forEach(img => ctx.replyWithPhoto({ source: img }));
   }
-
-  // @Hears('statistics')
-  // async onStatistics(ctx: Context) {
-  //   const currencies = await this.coinmarketcapService.getCurrencies();
-
-  //   const image = await this.pdfRenderer.renderAll(currencies);
-
-  //   await ctx.replyWithPhoto({ source: image });
-  // }
 }

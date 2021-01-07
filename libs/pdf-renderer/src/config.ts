@@ -4,17 +4,23 @@ import { rgb } from 'pdf-lib';
 export const pdfRendererConfig = registerAs('pdf-renderer', () => ({
   templates: [
     {
-      name: 'elegro',
+      name: 'niko-tech',
+      fixes: {},
     },
     {
-      name: 'niko-tech',
+      name: 'elegro',
+      fixes: {
+        date: {
+          y: -50,
+        },
+      },
     },
   ],
   colors: {
-    green: '#81ffe9',
+    green: rgb(0.505882353, 1, 0.917647059),
     white: rgb(1, 1, 1),
-    blue: '#abf0fe',
-    red: '#ff8181',
+    blue: rgb(0.670588235, 0.941176471, 0.996078431),
+    red: rgb(1, 0.505882353, 0.505882353),
   },
   monthes: [
     'January',

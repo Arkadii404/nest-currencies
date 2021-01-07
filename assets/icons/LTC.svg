@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 92 92" width="92" height="92">
+	<defs>
+		<image width="331" height="331" id="img1" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNTAwIiBoZWlnaHQ9IjI1MDAiIHZpZXdCb3g9IjAuODQ3IDAuODc2IDMyOS4yNTQgMzI5LjI1NiI+PHRpdGxlPkxpdGVjb2luPC90aXRsZT48cGF0aCBkPSJNMzMwLjEwMiAxNjUuNTAzYzAgOTAuOTIyLTczLjcwNSAxNjQuNjI5LTE2NC42MjYgMTY0LjYyOUM3NC41NTQgMzMwLjEzMi44NDggMjU2LjQyNS44NDggMTY1LjUwMy44NDggNzQuNTgyIDc0LjU1NC44NzYgMTY1LjQ3Ni44NzZjOTAuOTIgMCAxNjQuNjI2IDczLjcwNiAxNjQuNjI2IDE2NC42MjciIGZpbGw9IiNiZWJlYmUiLz48cGF0aCBkPSJNMjk1LjE1IDE2NS41MDVjMCA3MS42MTMtNTguMDU3IDEyOS42NzUtMTI5LjY3NCAxMjkuNjc1LTcxLjYxNiAwLTEyOS42NzctNTguMDYyLTEyOS42NzctMTI5LjY3NSAwLTcxLjYxOSA1OC4wNjEtMTI5LjY3NyAxMjkuNjc3LTEyOS42NzcgNzEuNjE4IDAgMTI5LjY3NCA1OC4wNTcgMTI5LjY3NCAxMjkuNjc3IiBmaWxsPSIjYmViZWJlIi8+PHBhdGggZD0iTTE1NS44NTQgMjA5LjQ4MmwxMC42OTMtNDAuMjY0IDI1LjMxNi05LjI0OSA2LjI5Ny0yMy42NjMtLjIxNS0uNTg3LTI0LjkyIDkuMTA0IDE3Ljk1NS02Ny42MDhoLTUwLjkyMWwtMjMuNDgxIDg4LjIzLTE5LjYwNSA3LjE2Mi02LjQ3OCAyNC4zOTUgMTkuNTktNy4xNTYtMTMuODM5IDUxLjk5OGgxMzUuNTIxbDguNjg4LTMyLjM2MmgtODQuNjAxIiBmaWxsPSIjZmZmIi8+PC9zdmc+"/>
+	</defs>
+	<style>
+		tspan { white-space:pre }
+	</style>
+	<g id="statistic копия">
+		<g id="litecoin копия">
+			<use id="litecoin" href="#img1" transform="matrix(0.036,0,0,0.036,0.25,0.75)"/>
+		</g>
+	</g>
+</svg>
