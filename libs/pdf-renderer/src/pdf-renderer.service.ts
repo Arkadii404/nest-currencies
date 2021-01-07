@@ -72,7 +72,6 @@ export class PdfRendererService {
         const icon = await pdfDoc.embedPng(
           await fs.readFile(`./assets/icons/${c.symbol}.png`),
         );
-
         firstPage.drawImage(icon, {
           x: 110,
           y: 165 + i * this.step,
@@ -80,7 +79,8 @@ export class PdfRendererService {
           height: 90,
         });
 
-        firstPage.drawText(c.name.toUpperCase(), {
+        const name = c.name.toUpperCase();
+        firstPage.drawText(name, {
           font: fonts.bold,
           color: this.config.colors.blue,
           size: 48,
@@ -88,7 +88,8 @@ export class PdfRendererService {
           y: 255 + i * this.step,
         });
 
-        firstPage.drawText(this.formatPrice(c.price), {
+        const price = this.formatPrice(c.price);
+        firstPage.drawText(price, {
           font: fonts.light,
           color: this.config.colors.white,
           size: 80,
@@ -96,12 +97,13 @@ export class PdfRendererService {
           y: 130 + i * this.step,
         });
 
-        firstPage.drawText(this.formatChange(c.change), {
+        const change = this.formatChange(c.change);
+        firstPage.drawText(change, {
           font: fonts.light,
           color:
             c.change >= 0 ? this.config.colors.green : this.config.colors.red,
           size: 60,
-          x: 700,
+          x: this.getRightAlignX(fonts.light, change, 60, 920),
           y: 130 + i * this.step,
         });
 
@@ -136,6 +138,16 @@ export class PdfRendererService {
     const middle = (maxX - minX) / 2;
     const textWith = font.widthOfTextAtSize(text, textSize);
     return minX + middle - textWith / 2;
+  }
+
+  private getRightAlignX(
+    font: PDFFont,
+    text: string,
+    textSize: number,
+    endX: number,
+  ): number {
+    const textWith = font.widthOfTextAtSize(text, textSize);
+    return endX - textWith;
   }
 
   private formatPrice(price: number): string {
