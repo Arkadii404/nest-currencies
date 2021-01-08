@@ -31,6 +31,12 @@ export class CurrencyBotController {
     const images = await this.pdfRendererService.renderAll(
       await this.coinmarketcapService.getCurrencies(),
     );
-    images.forEach(img => ctx.replyWithPhoto({ source: img }));
+
+    images.forEach(img =>
+      ctx.replyWithDocument({
+        source: img.pdf,
+        filename: `${img.name}.pdf`,
+      }),
+    );
   }
 }
