@@ -5,8 +5,7 @@ import { PDFDocument, PDFFont, PDFImage, PDFPage } from 'pdf-lib';
 import { promises as fs } from 'fs';
 
 import { pdfRendererConfig } from './config';
-import { Currency } from '../../domain/src/models/currency.model';
-import { doc } from 'prettier';
+import { Currency } from './models/currency.model';
 
 type FontTypes = 'light' | 'bold';
 
@@ -31,83 +30,97 @@ export class PdfRendererService implements OnModuleInit {
     private readonly config: ConfigType<typeof pdfRendererConfig>,
   ) {}
 
-  async onModuleInit() {
-    const { templates } = this.config;
+  async onModuleInit(): Promise<void> {
+    await this.init();
+  }
 
-    const fontFiles: Record<FontTypes, Buffer> = {
-      light: await fs.readFile('./assets/fonts/Light.otf'),
-      bold: await fs.readFile('./assets/fonts/Bold.otf'),
-    };
+  private async init(): Promise<void> {
+    try {
+      const { templates } = this.config;
 
-    const iconFiles: Record<IconTypes, Buffer> = {
-      BTC: await fs.readFile(`./assets/icons/BTC.png`),
-      ETH: await fs.readFile(`./assets/icons/ETH.png`),
-      LTC: await fs.readFile(`./assets/icons/LTC.png`),
-      USDT: await fs.readFile(`./assets/icons/USDT.png`),
-      XRP: await fs.readFile(`./assets/icons/XRP.png`),
-    };
+      const fontFiles: Record<FontTypes, Buffer> = {
+        light: await fs.readFile('./assets/fonts/Light.otf'),
+        bold: await fs.readFile('./assets/fonts/Bold.otf'),
+      };
 
-    await Promise.all(
-      templates.map(async template => {
-        this.preparedPDFs[template.name] = {
-          doc: await PDFDocument.load(
-            await fs.readFile(`./assets/templates/${template.name}.pdf`),
-          ),
-        };
+      const iconFiles: Record<IconTypes, Buffer> = {
+        BTC: await fs.readFile(`./assets/icons/BTC.png`),
+        ETH: await fs.readFile(`./assets/icons/ETH.png`),
+        LTC: await fs.readFile(`./assets/icons/LTC.png`),
+        USDT: await fs.readFile(`./assets/icons/USDT.png`),
+        XRP: await fs.readFile(`./assets/icons/XRP.png`),
+      };
 
-        this.preparedPDFs[template.name].doc.registerFontkit(fontkit);
+      await Promise.all(
+        templates.map(async template => {
+          this.preparedPDFs[template.name] = {
+            doc: await PDFDocument.load(
+              await fs.readFile(`./assets/templates/${template.name}.pdf`),
+            ),
+          };
 
-        this.preparedPDFs[template.name].fonts = {
-          light: await this.preparedPDFs[template.name].doc.embedFont(
-            fontFiles.light,
-          ),
-          bold: await this.preparedPDFs[template.name].doc.embedFont(
-            fontFiles.bold,
-          ),
-        };
+          this.preparedPDFs[template.name].doc.registerFontkit(fontkit);
 
-        this.preparedPDFs[template.name].icons = {
-          BTC: await this.preparedPDFs[template.name].doc.embedPng(
-            iconFiles.BTC,
-          ),
-          ETH: await this.preparedPDFs[template.name].doc.embedPng(
-            iconFiles.ETH,
-          ),
-          LTC: await this.preparedPDFs[template.name].doc.embedPng(
-            iconFiles.LTC,
-          ),
-          USDT: await this.preparedPDFs[template.name].doc.embedPng(
-            iconFiles.USDT,
-          ),
-          XRP: await this.preparedPDFs[template.name].doc.embedPng(
-            iconFiles.XRP,
-          ),
-        };
-      }),
-    );
+          this.preparedPDFs[template.name].fonts = {
+            light: await this.preparedPDFs[template.name].doc.embedFont(
+              fontFiles.light,
+            ),
+            bold: await this.preparedPDFs[template.name].doc.embedFont(
+              fontFiles.bold,
+            ),
+          };
+
+          this.preparedPDFs[template.name].icons = {
+            BTC: await this.preparedPDFs[template.name].doc.embedPng(
+              iconFiles.BTC,
+            ),
+            ETH: await this.preparedPDFs[template.name].doc.embedPng(
+              iconFiles.ETH,
+            ),
+            LTC: await this.preparedPDFs[template.name].doc.embedPng(
+              iconFiles.LTC,
+            ),
+            USDT: await this.preparedPDFs[template.name].doc.embedPng(
+              iconFiles.USDT,
+            ),
+            XRP: await this.preparedPDFs[template.name].doc.embedPng(
+              iconFiles.XRP,
+            ),
+          };
+        }),
+      );
+    } catch (err) {
+      console.log('RENDER INIT FAILED');
+      throw err;
+    }
   }
 
   private async render(
     currencies: Currency[],
     template: { name: string; fixes: any },
   ): Promise<Renderd> {
-    const { fonts, doc, icons } = this.preparedPDFs[template.name];
+    try {
+      const { fonts, doc, icons } = this.preparedPDFs[template.name];
 
-    const pages = doc.getPages();
-    const firstPage = pages[0];
+      const pages = doc.getPages();
+      const firstPage = pages[0];
 
-    this.renderDate(firstPage, fonts.bold, template.fixes);
+      this.renderDate(firstPage, fonts.bold, template.fixes);
 
-    await Promise.all(
-      currencies.map(async (c, i) => {
-        this.renderCurrency(firstPage, fonts, icons, template.fixes, c, i);
-        return c;
-      }),
-    );
+      await Promise.all(
+        currencies.map(async (c, i) => {
+          this.renderCurrency(firstPage, fonts, icons, template.fixes, c, i);
+          return c;
+        }),
+      );
 
-    const pdf = Buffer.from(await doc.save());
+      const pdf = Buffer.from(await doc.save());
 
-    return { pdf, name: template.name };
+      return { pdf, name: template.name };
+    } catch (err) {
+      console.log('RENDER FAILED');
+      throw err;
+    }
   }
 
   public async renderAll(currencies: Currency[]): Promise<Renderd[]> {
